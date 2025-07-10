@@ -28,14 +28,14 @@ export const createQuestionRoute: FastifyPluginCallbackZod = (app) => {
         })
         .returning();
 
-      const insertedRoom = result[0] ?? null;
+      const insertedQuestion = result[0] ?? null;
 
-      if (!insertedRoom) {
-        throw new Error("Failed to create new room");
+      if (!insertedQuestion) {
+        throw new Error("Failed to create new question");
       }
 
       return reply.status(201).send({
-        roomId: insertedRoom.id,
+        questionId: insertedQuestion.id,
       });
     }
   );
