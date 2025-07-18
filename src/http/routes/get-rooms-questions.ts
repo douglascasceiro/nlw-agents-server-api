@@ -15,20 +15,26 @@ export const getRoomsQuestions: FastifyPluginCallbackZod = (app) => {
       },
     },
     async (request) => {
-      const { roomId } = request.params;
+      try {
+        const { roomId } = request.params;
 
-      const results = await db
-        .select({
-          id: schema.questions.id,
-          question: schema.questions.question,
-          answer: schema.questions.answer,
-          createdAt: schema.questions.createdAt,
-        })
-        .from(schema.questions)
-        .where(eq(schema.questions.roomId, roomId))
-        .orderBy(desc(schema.questions.createdAt));
+        const results = await db
+          .select({
+            id: schema.questions.id,
+            question: schema.questions.question,
+            answer: schema.questions.answer,
+            createdAt: schema.questions.createdAt,
+          })
+          .from(schema.questions)
+          .where(eq(schema.questions.roomId, roomId))
+          .orderBy(desc(schema.questions.createdAt));
 
-      return results;
+        return results;
+      } catch (err) {
+        // biome-ignore lint/suspicious/noConsole: Identificar Erros de Banco no LOG
+        console.error(err);
+        throw err;
+      }
     }
   );
 };

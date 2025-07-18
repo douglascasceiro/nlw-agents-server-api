@@ -1,10 +1,10 @@
 import { reset, seed } from "drizzle-seed";
 import { db, sql } from "./connection.ts";
-import { schema } from "./schema/index.ts";
+import { seedSchema } from "./schema/index.ts";
 
-await reset(db, schema);
+await reset(db, seedSchema);
 
-await seed(db, schema).refine((f) => {
+await seed(db, seedSchema).refine((f) => {
   return {
     rooms: {
       count: 5,
